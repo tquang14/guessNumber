@@ -1,2 +1,4 @@
 #ignore vscode generate folder
 .vscode
+#ignore exe file
+*.exe
