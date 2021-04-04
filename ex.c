@@ -1,3 +1,5 @@
+#pragma warning(disable : 4996)
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -27,9 +29,43 @@ void createRandomNumber(char num[]);
 
 int main()
 {
-    // ger user input
-    char userInput[4] = {0};
+    // get user input
+    char userInput[ARR_SIZE] = {'0'};
     int tmpUserInput;
+    uint8_t gameEnd = 0;
+    char randomArray[ARR_SIZE];
+    createRandomNumber(randomArray);
+#if 0
+	for (uint8_t i = 0; i < ARR_SIZE; i++) {
+		printf("%c ", randomArray[i]);
+	}
+	printf("\n");
+#endif
+    while (1)
+    {
+        printf("input 4 number seperate by space:\n");
+        for (uint8_t i = 0; i < ARR_SIZE; i++)
+        {
+            scanf("%d", &tmpUserInput);
+            // TODO: validate user input is < 0 or > 10
+            userInput[i] = tmpUserInput + '0';
+        }
+        uint8_t isValid = isValidNumber(userInput);
+        if (!isValid)
+        {
+            printf("not a valid array, there is a duplicate\n");
+            continue;
+        }
+        if (isMatch(randomArray, userInput))
+        {
+            printf("game end, array is: ");
+            for (uint8_t i = 0; i < ARR_SIZE; i++)
+            {
+                printf("%c ", randomArray[i]);
+            }
+            break;
+        }
+    }
 
     return 0;
 }
@@ -61,7 +97,7 @@ int isMatch(char *targets, char *nums)
                 blow++;
         }
     }
-    printf("%d hit, %d blow", hit, blow);
+    printf("%d hit, %d blow\n", hit, blow);
     return isMatch;
 }
 
